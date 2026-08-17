@@ -151,58 +151,6 @@ export default function ScrollHero({ setCurrentRoute, language }) {
     };
   }, [allLoaded]);
 
-  // Phase opacity calculations
-  const getPhase1Opacity = (p) => {
-    if (p < 0.15) return 1;
-    if (p > 0.25) return 0;
-    return 1 - (p - 0.15) / 0.10;
-  };
-
-  const getPhase1Translate = (p) => {
-    if (p < 0.15) return 0;
-    const fraction = (p - 0.15) / 0.10;
-    return -50 * fraction;
-  };
-
-  const getPhase2Opacity = (p) => {
-    if (p < 0.30) return 0;
-    if (p > 0.65) return 0;
-    if (p >= 0.30 && p < 0.42) {
-      return (p - 0.30) / 0.12;
-    }
-    if (p >= 0.42 && p <= 0.52) {
-      return 1;
-    }
-    return 1 - (p - 0.52) / 0.13;
-  };
-
-  const getPhase2Translate = (p) => {
-    if (p < 0.30) return 50;
-    if (p > 0.65) return -50;
-    if (p >= 0.30 && p < 0.42) {
-      const fraction = (p - 0.30) / 0.12;
-      return 50 * (1 - fraction);
-    }
-    if (p >= 0.42 && p <= 0.52) {
-      return 0;
-    }
-    const fraction = (p - 0.52) / 0.13;
-    return -50 * fraction;
-  };
-
-  const getPhase3Opacity = (p) => {
-    if (p < 0.70) return 0;
-    if (p >= 0.85) return 1;
-    return (p - 0.70) / 0.15;
-  };
-
-  const getPhase3Translate = (p) => {
-    if (p < 0.70) return 50;
-    if (p >= 0.85) return 0;
-    const fraction = (p - 0.70) / 0.15;
-    return 50 * (1 - fraction);
-  };
-
   return (
     <div className="scroll-hero-track" ref={trackRef}>
       <div className="scroll-hero-sticky">
@@ -227,12 +175,7 @@ export default function ScrollHero({ setCurrentRoute, language }) {
           <>
             {/* Phase 1: Landing Header */}
             <div
-              className="scroll-narrative-overlay"
-              style={{
-                opacity: getPhase1Opacity(scrollProgress),
-                transform: `translateY(${getPhase1Translate(scrollProgress)}px)`,
-                pointerEvents: scrollProgress < 0.25 ? 'auto' : 'none',
-              }}
+              className={`scroll-narrative-overlay phase-1 ${scrollProgress < 0.22 ? 'active' : ''}`}
             >
               <div className="narrative-content container">
                 <span className="narrative-badge">Maxx Fit Club</span>
@@ -251,12 +194,13 @@ export default function ScrollHero({ setCurrentRoute, language }) {
 
             {/* Phase 2: Form Description */}
             <div
-              className="scroll-narrative-overlay"
-              style={{
-                opacity: getPhase2Opacity(scrollProgress),
-                transform: `translateY(${getPhase2Translate(scrollProgress)}px)`,
-                pointerEvents: scrollProgress >= 0.30 && scrollProgress <= 0.65 ? 'auto' : 'none',
-              }}
+              className={`scroll-narrative-overlay phase-2 ${
+                scrollProgress >= 0.30 && scrollProgress <= 0.60
+                  ? 'active'
+                  : scrollProgress > 0.60
+                  ? 'leaving'
+                  : ''
+              }`}
             >
               <div className="narrative-content container text-center max-w-xl">
                 <span className="narrative-badge">{t('trulyPersonalTitle')}</span>
@@ -269,12 +213,7 @@ export default function ScrollHero({ setCurrentRoute, language }) {
 
             {/* Phase 3: CTAs */}
             <div
-              className="scroll-narrative-overlay"
-              style={{
-                opacity: getPhase3Opacity(scrollProgress),
-                transform: `translateY(${getPhase3Translate(scrollProgress)}px)`,
-                pointerEvents: scrollProgress > 0.70 ? 'auto' : 'none',
-              }}
+              className={`scroll-narrative-overlay phase-3 ${scrollProgress > 0.70 ? 'active' : ''}`}
             >
               <div className="narrative-content container">
                 <span className="narrative-badge">{t('yourTurnNow')}</span>
