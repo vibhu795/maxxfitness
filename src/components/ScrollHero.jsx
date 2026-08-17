@@ -24,14 +24,15 @@ export default function ScrollHero({ setCurrentRoute, language }) {
   useEffect(() => {
     const mobile = window.innerWidth < 768;
     setIsMobile(mobile);
-    const frameCount = mobile ? 1 : 192;
+    const frameCount = mobile ? 48 : 192;
     let loadedCount = 0;
     const loadedImages = [];
 
     for (let i = 0; i < frameCount; i++) {
       const img = new Image();
       // Format number to 6 digits, e.g. frame_000000.jpg
-      const frameNum = String(i).padStart(6, '0');
+      const frameIndex = mobile ? i * 4 : i;
+      const frameNum = String(frameIndex).padStart(6, '0');
       img.src = `/frames/frame_${frameNum}.jpg`;
       
       img.onload = () => {
@@ -65,7 +66,9 @@ export default function ScrollHero({ setCurrentRoute, language }) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const imgIndex = window.innerWidth < 768 ? 0 : index;
+    const imgIndex = window.innerWidth < 768 
+      ? Math.min(Math.max(Math.floor(index / 4), 0), 47) 
+      : Math.min(Math.max(index, 0), imagesRef.current.length - 1);
     const img = imagesRef.current[imgIndex];
     if (!img || !img.complete) return;
 
