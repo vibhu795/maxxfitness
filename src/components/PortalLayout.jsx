@@ -1111,6 +1111,10 @@ export default function PortalLayout({ user, onLogout }) {
             padding: 20px;
             padding-bottom: 90px;
           }
+          .portal-router-view {
+            padding: 0 16px;
+            box-sizing: border-box;
+          }
           .portal-mobile-header {
             display: flex;
             align-items: center;
@@ -1146,7 +1150,7 @@ export default function PortalLayout({ user, onLogout }) {
             background-color: #0D0D0D;
             border-top: 1px solid var(--color-border);
             z-index: 1000;
-            padding: 8px 0;
+            padding: 12px 0;
           }
           .mobile-nav-tab-btn {
             background: transparent;
@@ -1176,8 +1180,11 @@ export default function PortalLayout({ user, onLogout }) {
             background-color: var(--color-alert-red);
           }
           .mobile-tab-label {
-            font-size: 0.65rem;
-            font-weight: 600;
+            display: none;
+          }
+          .active-sub-meta {
+            flex-direction: column;
+            gap: 12px;
           }
         }
       `}} />
