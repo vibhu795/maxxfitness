@@ -1115,6 +1115,11 @@ export default function PortalLayout({ user, onLogout }) {
             padding: 0 16px;
             box-sizing: border-box;
           }
+          .section-head-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
           .portal-mobile-header {
             display: flex;
             align-items: center;
